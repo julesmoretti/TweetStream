@@ -28,50 +28,35 @@ io.sockets.on('connection', function (socket) {
 
 
 // Connect to twitter API
-var twit = new twitter(config.twitter);
+// var twit = new twitter(config.twitter);
 
-// TODO: Check for valid oAuth tokens before re-authenticating.
-// twit.verifyCredentials(function (err, data) {
-//   console.log('Twitter auth response', err);
-// });
+// var startStream = function() {
+//   console.log('Twitter OK');
+//   console.log('Starting Twitter stream');
 
-var startStream = function() {
-  console.log('Twitter OK');
-  console.log('Starting Twitter stream');
+//   twit.stream('statuses/filter', { track: 'bieber' }, function(stream, error) {
+//     console.log('Stream responded with', stream);
 
-  twit.stream('statuses/filter', { track: 'bieber' }, function(stream, error) {
-    console.log('Stream responded with', stream);
-
-    //We have a connection. Now watch the 'data' event for incomming tweets.
-    stream.on('data', function(tweet) {
+//     //We have a connection. Now watch the 'data' event for incomming tweets.
+//     stream.on('data', function(tweet) {
    
-      //Make sure it was a valid tweet
-      // if (data.text !== undefined) {
-        io.sockets.emit('tweets', tweet.id);
-      // }
+//       //Make sure it was a valid tweet
+//       // if (data.text !== undefined) {
+//         io.sockets.emit('tweets', tweet.id);
+//       // }
 
-    });
+//     });
 
-    setTimeout(function(){
-      console.log('Closing Twitter streaming connection');
-      stream.destroy();
-    }, 5000);
+//     setTimeout(function(){
+//       console.log('Closing Twitter streaming connection');
+//       stream.destroy();
+//     }, 5000);
 
-  });
-}
+//   });
+// }
 
-startStream();
+// startStream();
 
-// twit.verifyCredentials(function(response) {
-//   // console.log('Twitter auth response', response);
-//   console.log('Authorizing with Twitter');
-
-//   if(response.errors) {
-//     console.log('Twitter Auth Error:', response.errors);
-//   } else {
-//     startStream();
-//   }
-// });
 
 
 
