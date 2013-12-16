@@ -6,7 +6,7 @@ var config = require('./config');
 
 
 // Connect to twitter API
-var twit = new twitter(config.twitter);
+// var twit = new twitter(config.twitter);
 
 // TODO: Check for valid oAuth tokens before re-authenticating.
 // twit.verifyCredentials(function (err, data) {
@@ -18,8 +18,9 @@ var twit = new twitter(config.twitter);
 var port = 3000;
 
 var app = express();
-app.get('/', function(req, res){
-  res.sendfile(__dirname + '/index.html');
+app.get(/^(.+)$/, function(req, res){ 
+  console.log('static file request : ' + req.params);
+  res.sendfile( __dirname + req.params[0]); 
 });
 
 app.listen(port);
