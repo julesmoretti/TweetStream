@@ -39,16 +39,16 @@ var startStream = function() {
   console.log('Twitter OK');
   console.log('Starting Twitter stream');
 
-  twit.stream('statuses/filter', { track: ['nodejs'] }, function(stream, error) {
+  twit.stream('statuses/filter', { track: 'bieber' }, function(stream, error) {
     console.log('Stream responded with', stream);
 
     //We have a connection. Now watch the 'data' event for incomming tweets.
     stream.on('data', function(tweet) {
    
       //Make sure it was a valid tweet
-      if (tweet.text !== undefined) {
-        io.sockets.emit('Tweet data:', tweet);
-      }
+      // if (data.text !== undefined) {
+        io.sockets.emit('tweets', tweet.id);
+      // }
 
     });
 
@@ -60,14 +60,18 @@ var startStream = function() {
   });
 }
 
-twit.verifyCredentials(function(response) {
-  // console.log('Twitter auth response', response);
-  console.log('Authorizing with Twitter');
+startStream();
 
-  if(response.errors) {
-    console.log('Twitter Auth Error:', response.errors);
-  } else {
-    startStream();
-  }
-});
+// twit.verifyCredentials(function(response) {
+//   // console.log('Twitter auth response', response);
+//   console.log('Authorizing with Twitter');
+
+//   if(response.errors) {
+//     console.log('Twitter Auth Error:', response.errors);
+//   } else {
+//     startStream();
+//   }
+// });
+
+
 
