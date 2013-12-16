@@ -50,7 +50,7 @@ var startStream = function() {
     setTimeout(function(){
       console.log('Closing Twitter streaming connection');
       stream.destroy();
-    }, 120000);
+    }, 5 * 60000);
 
   });
 }
