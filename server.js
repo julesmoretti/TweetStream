@@ -1,6 +1,5 @@
 var express = require('express');
 var socketio = require('socket.io');
-// var twitter = require('ntwitter');
 var twitter = require('twitter');
 var config = require('./config');
 
@@ -18,10 +17,17 @@ var config = require('./config');
 var port = 3000;
 
 var app = express();
+var io = socketio.listen(app.listen(port));
+
 app.get(/^(.+)$/, function(req, res){ 
   console.log('static file request : ' + req.params);
   res.sendfile( __dirname + req.params[0]); 
 });
-
-app.listen(port);
 console.log('Express is running. Open http://localhost:' + port);
+
+io.sockets.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
