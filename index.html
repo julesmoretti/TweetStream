@@ -5,7 +5,7 @@
   <title>TweetStream</title>
   <link rel="stylesheet" href="styles/app.css">
 </head>
-<body ng-app="tweetStream">
+<body ng-app="tweetStream" ng-cloak>
 
   <div ng-controller="globeController">
       
@@ -35,6 +35,10 @@
     </div>
 
     <div id="tweetPreview" ng-model="tweetPreview">{{ tweetPreview }}</div>
+
+    <!-- <div id="pause">
+      <button ng-click="toggleStream( on = !on )">Pause</button>
+    </div> -->
 
   </div>
 

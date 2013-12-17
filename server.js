@@ -40,6 +40,14 @@ io.sockets.on('connection', function (socket) {
   socket.on('disconnect', function () {
     connectedCount--;
   });
+
+  // socket.on('streamPause', function(data) {
+  //   console.log('Closing the stream (pausing)', typeof stream);
+  //   if(typeof stream !== "undefined") {
+  //     stream.destroy();
+  //   }
+  // });
+
 });
 
 
@@ -84,8 +92,6 @@ var startStream = function(keyword) {
     });
 
     var connectionCheck = setInterval(function(){
-      // console.log('Connected count is:', connectedCount);
-
       // FIXME: check if there's a stream to close.
       if(connectedCount < 1) {
         console.log('Closing Twitter streaming connection');
