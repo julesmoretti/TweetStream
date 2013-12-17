@@ -57,11 +57,22 @@ var startStream = function(keyword) {
 
     // We have a connection. Now watch the 'data' event for incomming tweets.
     stream.on('data', function(tweet) {
-      io.sockets.emit('tweets', tweet);
+      
+      // Only send partial data across wire.
+      var trimmedTweet = {};
+      trimmedTweet.text = tweet.text;
+
+      if(tweet.geo) {
+        trimmedTweet.geo.coordinates = tweet.geo.coordinates;
+        trimmedTweet.place.full_name = tweet.place.full_name;
+        trimmedTweet.place.country = tweet.place.country;
+      }
+
+      io.sockets.emit('tweets', trimmedTweet);
     });
 
     var connectionCheck = setInterval(function(){
-      console.log('Connected count is:', connectedCount);
+      // console.log('Connected count is:', connectedCount);
 
       // FIXME: check if there's a stream to close.
       if(connectedCount < 1) {

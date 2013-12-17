@@ -4,9 +4,11 @@ TweetStream
 TweetStream
 
 ### TODO
-- Tweet velocity
 - Style page
 - AngularJS
+- Show keyword on new connections.
+- Reset data on new search.
+- Trim city list.
 
 ### Stretch Goals
 - Make daytime / nighttime version
@@ -17,3 +19,4 @@ TweetStream
 ### COMPLETED
 - Ability to change search keyword
 - Rotate globe automatically
+- Tweet velocity
