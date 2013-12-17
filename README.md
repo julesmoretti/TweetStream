@@ -9,12 +9,15 @@ TweetStream
 - Show keyword on new connections.
 - Reset data on new search.
 - Trim city list.
+- Trim data sent to browser
+- Fix initial spin.
 
 ### Stretch Goals
 - Make daytime / nighttime version
 - Glowing data points
 - Animate point creation
 - Sentiment analysis on tweets.
+- D3 animation of tweet flow.
 
 ### COMPLETED
 - Ability to change search keyword

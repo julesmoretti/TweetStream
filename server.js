@@ -54,21 +54,28 @@ var startStream = function(keyword) {
     // console.log('Stream responded with', stream);
     // streamStatus = 'connected';
     // io.sockets.emit('streamStatus', streamStatus);
+      console.log('Error from twitter', stream, error);
+    if(error) {
+      return;
+    }
 
     // We have a connection. Now watch the 'data' event for incomming tweets.
     stream.on('data', function(tweet) {
-      
       // Only send partial data across wire.
-      var trimmedTweet = {};
-      trimmedTweet.text = tweet.text;
+      // var trimmedTweet = {};
+      // trimmedTweet.text = tweet.text;
 
-      if(tweet.geo) {
-        trimmedTweet.geo.coordinates = tweet.geo.coordinates;
-        trimmedTweet.place.full_name = tweet.place.full_name;
-        trimmedTweet.place.country = tweet.place.country;
-      }
+      // if(tweet.geo) {
+      //   if(tweet.geo.coordinates !== undefined) {
+      //     console.log('coorids', tweet.geo.coordinates);
+      //     trimmedTweet.geo.coordinates = tweet.geo.coordinates;
+      //   }
+      //   trimmedTweet.place.full_name = tweet.place.full_name;
+      //   trimmedTweet.place.country = tweet.place.country;
+      // }
 
-      io.sockets.emit('tweets', trimmedTweet);
+      // io.sockets.emit('tweets', trimmedTweet);
+      io.sockets.emit('tweets', tweet);
     });
 
     var connectionCheck = setInterval(function(){

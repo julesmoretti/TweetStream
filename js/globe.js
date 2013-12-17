@@ -77,7 +77,7 @@ DAT.Globe = function(container, colorFn) {
   var zoomSpeed = 50;
 
   var mouse = { x: 0, y: 0 }, mouseOnDown = { x: 0, y: 0 };
-  var rotation = { x: 0, y: 0, autox: 0.001, autoy: 0 },
+  var rotation = { x:0, y: 0, autox: 0.003, autoy: 0 },
       incr_rotation = { x: 0, y: 0 },
       target = { x: Math.PI*3/2, y: Math.PI / 6.0 },
       targetOnDown = { x: 0, y: 0 };
@@ -105,7 +105,7 @@ DAT.Globe = function(container, colorFn) {
     shader = Shaders['earth'];
     uniforms = THREE.UniformsUtils.clone(shader.uniforms);
 
-    uniforms['texture'].value = THREE.ImageUtils.loadTexture(imgDir+'world.jpg');
+    uniforms['texture'].value = THREE.ImageUtils.loadTexture(imgDir+'world2.jpg');
 
     material = new THREE.ShaderMaterial({
 
@@ -370,7 +370,7 @@ DAT.Globe = function(container, colorFn) {
 
     // Only spin on y axis
     rotation.y += (target.y - rotation.y) * 0.1;
-    distance += (distanceTarget - distance) * 0.3;
+    distance += (distanceTarget - distance) * 0.9;
 
     camera.position.x = distance * Math.sin(rotation.x) * Math.cos(rotation.y);
     camera.position.y = distance * Math.sin(rotation.y);
