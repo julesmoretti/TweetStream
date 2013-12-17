@@ -5,41 +5,51 @@
   <title>TweetStream</title>
   <link rel="stylesheet" href="styles/app.css">
 </head>
-<body>
+<body ng-app="tweetStream">
 
-  <div id="globe"></div>
-  
-  <div id="kwInput">
-    <form>
-      <input type="text" name="keyword" placeholder="Enter a Keyword">
-    </form>
+  <div ng-controller="globeController">
+      
+    <div id="globe" ng-model="globe"></div>
+
+    <div id="kwInput">
+      <form ng-submit="search()">
+        <input type="text" name="keyword" ng-model="keyword" placeholder="Enter a Keyword">
+      </form>
+    </div>
+
+    <div id="tweetData">
+      <div class="tweetNum">
+        <h4>Number of Tweets</h4>
+        <div class="target" ng-model="tweetTotal">{{ tweetTotal }}</div>
+      </div>
+
+      <div class="tweetVelocity">
+        <h4>Velocity</h4>
+        <div class="target" ng-model="tweetVelocity">{{ tweetVelocity }}</div>
+      </div>
+
+      <div class="tweetLoc">
+        <h4>Tweet Locations</h4>
+        <div class="target" ng-model="tweetLocation"><p ng-repeat="location in tweetLocations track by location.id">{{ location.loc }}</p></div>
+      </div>
+    </div>
+
+    <div id="tweetPreview" ng-model="tweetPreview">{{ tweetPreview }}</div>
+
   </div>
 
-  <div id="tweetData">
-    <div class="tweetNum">
-      <h4>Number of Tweets</h4>
-      <div class="target">0</div>
-    </div>
-
-    <div class="tweetVelocity">
-      <h4>Velocity</h4>
-      <div class="target">0</div>
-    </div>
-
-    <div class="tweetLoc">
-      <h4>Tweet Locations</h4>
-      <div class="target"></div>
-    </div>
-  </div>
-
-  <div id="tweetPreview"></div>
   
-  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+  
+  
+  
+  <!-- // <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
   <script src="node_modules/socket.io-client/dist/socket.io.min.js"></script>
+  <script src="js/ng-socket.js"></script>
   <script src="js/Detector.js"></script>
   <script src="js/three.min.js"></script>
   <script src="js/Tween.js"></script>
   <script src="js/globe.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/ng-app.js"></script>
 </body>
 </html>
