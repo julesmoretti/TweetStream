@@ -1,11 +1,10 @@
 angular.module('tweetStream', ['socket-io'])
 .controller('globeController', function($scope, socket) {
 
-  // TODO: Rest globe on new search
   // TODO: Calculate velocity
-  // FIXME: Max items in location list
+  // TODO: Create Pause button.
   // FIXME: Looking into socket.io heartbeat for smoother pulses.
-  
+
   var globe = {
     container : document.getElementById('globe'),
     obj       : null
@@ -32,14 +31,32 @@ angular.module('tweetStream', ['socket-io'])
       }
     }
 
-    $scope.tweetPreview = tweet.text;
+    // Display the tweet on screen.
+    var message;
+    if(!!tweet.user) {
+      message = '@' + tweet.user.screen_name + ' - ' + tweet.text;
+    } else {
+      message = tweet.text;
+    }
+    $scope.tweetPreview = message;
+
     if(!!tweet.place) {
+      if($scope.tweetLocations.length > 10) {
+        $scope.tweetLocations.shift();
+      }
       $scope.tweetLocations.push({ id: tweet.id, loc: tweet.place.full_name});
     }
   })
 
   // Search for specific twitter keywords
   $scope.search = function() {
+    // Reset data for new search.
+    globe.obj = null;
+    globe.container.innerHTML = '';
+    $scope.tweetTotal = 0;
+    $scope.tweetVelocity = 0;
+    $scope.tweetLocations = [];
+
     console.log('Searching for keyword', this.keyword);
     socket.emit('keyword', this.keyword);
   }
