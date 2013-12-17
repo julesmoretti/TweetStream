@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
   var veloPlace = $('.tweetVelocity').find('.target');
   var numPlace = $('.tweetNum').find('.target');
   var locPlace = $('.tweetLoc').find('.target');
@@ -14,18 +15,18 @@ $(document).ready(function() {
 
   // var tweetNum = 0;
   // var tweetTime = 0;
-
+  var last = 0;
   var calcVelo = function(d, t) {
-    // FIXME: Math is WRONG.
+    d = (tweetStats.total - last) * 60;
     v = (d/t);
+    last = tweetStats.total;
     return Math.floor(v);
   }
 
   // Calculate tweet velocity - tweets per minute?
-  // Sample size is 5 seconds.
   // FIXME: This is gross.
   setInterval(function(){
-    tweetStats.timer += 5
+    tweetStats.timer += 1
     veloPlace.html(calcVelo(tweetStats.total, tweetStats.timer));
   }, 1000);
     
@@ -74,12 +75,14 @@ $(document).ready(function() {
     numPlace.html(tweetStats.total);
 
     if(tweet.geo && tweet.geo.type === "Point") {
-      console.log('Tweet with geo detected', tweet);
+      // console.log('Tweet with geo detected', tweet);
       locPlace.append('<p>' + tweet.place.full_name + '</p>');
 
-      // Format data and add the maginitude.
-      var data = [tweet.geo.coordinates[0], tweet.geo.coordinates[1], 0.3];
-      globe.addData(data, { format: 'magnitude', color: { r:233, g:3, b:3 } });
+      // Format data and add the magnitude.
+      var magnitude = tweet.text.length / 280;
+      var data = [tweet.geo.coordinates[0], tweet.geo.coordinates[1], magnitude];
+      globe.addData(data, { format: 'magnitude' });
+      // globe.addData(data, { format: 'legend' });
       // globe.addData(data, { format: 'magnitude', animated: true });
       globe.createPoints();
 
