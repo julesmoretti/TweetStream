@@ -1,16 +1,15 @@
 TweetStream
 ===========
 
-TweetStream
+A global visualization of keyword specific tweets.
 
 ### TODO
 - Style page
-- AngularJS
 - Show keyword on new connections.
-- Reset data on new search.
-- Trim city list.
+
+### FIXME
+- Initial spin.
 - Trim data sent to browser
-- Fix initial spin.
 
 ### Stretch Goals
 - Make daytime / nighttime version
@@ -23,3 +22,9 @@ TweetStream
 - Ability to change search keyword
 - Rotate globe automatically
 - Tweet velocity
+- AngularJS
+- Reset data on new search.
+- Trim city list.
+
+
+

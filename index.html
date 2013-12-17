@@ -7,47 +7,10 @@
 </head>
 <body ng-app="tweetStream" ng-cloak>
 
-  <div ng-controller="globeController">
-      
-    <div id="globe" ng-model="globe">{{ globe }}</div>
+  <div ng-view></div>
 
-    <div id="kwInput">
-      <form ng-submit="search()">
-        <input type="text" name="keyword" ng-model="keyword" placeholder="Enter a Keyword">
-      </form>
-    </div>
-
-    <div id="tweetData">
-      <div class="tweetNum">
-        <h4>Number of Tweets</h4>
-        <div class="target" ng-model="tweetTotal">{{ tweetTotal }}</div>
-      </div>
-
-      <div class="tweetVelocity">
-        <h4>Velocity</h4>
-        <div class="target" ng-model="tweetVelocity">{{ tweetVelocity }}</div>
-      </div>
-
-      <div class="tweetLoc">
-        <h4>Tweet Locations</h4>
-        <div class="target" ng-model="tweetLocation"><p ng-repeat="location in tweetLocations track by location.id">{{ location.loc }}</p></div>
-      </div>
-    </div>
-
-    <div id="tweetPreview" ng-model="tweetPreview">{{ tweetPreview }}</div>
-
-    <!-- <div id="pause">
-      <button ng-click="toggleStream( on = !on )">Pause</button>
-    </div> -->
-
-  </div>
-
-  
-  
-  
-  
-  <!-- // <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script> -->
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+  <script src="js/angular.min.js"></script>
+  <script src="js/angular-route.min.js"></script>
   <script src="node_modules/socket.io-client/dist/socket.io.min.js"></script>
   <script src="js/ng-socket.js"></script>
   <script src="js/Detector.js"></script>

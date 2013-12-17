@@ -1,0 +1,13 @@
+<div ng-controller="mosaicController">
+  
+  <div id="kwInput">
+    <form ng-submit="search()">
+      <input type="text" name="keyword" ng-model="keyword" placeholder="Enter a Keyword">
+    </form>
+  </div>
+
+  <div ng-model="photos">
+    {{ photos }}
+  </div>
+
+</div>

@@ -1,4 +1,17 @@
-angular.module('tweetStream', ['socket-io'])
+angular.module('tweetStream', ['socket-io', 'ngRoute'])
+.config(['$routeProvider', function($routeProvider) {
+  $routeProvider.
+    when('/', {
+      templateUrl: 'templates/globe.html',
+      controller: 'globeController'
+    }).
+    otherwise({
+      redirectTo: '/'
+    })
+}])
+
+
+
 .controller('globeController', function($scope, socket) {
   var time = null;
   $scope.tweetTotal = 0;
@@ -17,8 +30,7 @@ angular.module('tweetStream', ['socket-io'])
   });
 
   // TODO: Create Pause button.
-  // TODO: Split mult-keywords by color.
-  // FIXME: Looking into socket.io heartbeat for smoother pulses.
+  // TODO: Split multi-keywords by color.
 
   setInterval(function(){
     console.log('Calc velocity');
@@ -63,7 +75,7 @@ angular.module('tweetStream', ['socket-io'])
       }
       $scope.tweetLocations.push({ id: tweet.id, loc: tweet.place.full_name});
     }
-  })
+  });
 
   // Search for specific twitter keywords
   $scope.search = function() {
@@ -78,10 +90,10 @@ angular.module('tweetStream', ['socket-io'])
     socket.emit('keyword', this.keyword);
   }
 
-  $scope.toggleStream = function(status) {
-    console.log('Pause the stream', status);
-    socket.emit('streamPause', status);
-  };
+  // $scope.toggleStream = function(status) {
+  //   console.log('Pause the stream', status);
+  //   socket.emit('streamPause', status);
+  // };
 
   // Utility function - shouldn't be on $scope
   $scope.velocity = function() {

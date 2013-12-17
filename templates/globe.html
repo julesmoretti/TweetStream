@@ -1,0 +1,34 @@
+<div ng-controller="globeController">
+      
+  <div id="globe" ng-model="globe">{{ globe }}</div>
+
+  <div id="kwInput">
+    <form ng-submit="search()">
+      <input type="text" name="keyword" ng-model="keyword" placeholder="Enter a Keyword">
+    </form>
+  </div>
+
+  <div id="tweetData">
+    <div class="tweetNum">
+      <h4>Number of Tweets</h4>
+      <div class="target" ng-model="tweetTotal">{{ tweetTotal }}</div>
+    </div>
+
+    <div class="tweetVelocity">
+      <h4>Velocity</h4>
+      <div class="target" ng-model="tweetVelocity">{{ tweetVelocity }}</div>
+    </div>
+
+    <div class="tweetLoc">
+      <h4>Tweet Locations</h4>
+      <div class="target" ng-model="tweetLocation"><p ng-repeat="location in tweetLocations track by location.id">{{ location.loc }}</p></div>
+    </div>
+  </div>
+
+  <div id="tweetPreview" ng-model="tweetPreview">{{ tweetPreview }}</div>
+
+  <!-- <div id="pause">
+    <button ng-click="toggleStream( on = !on )">Pause</button>
+  </div> -->
+
+</div>
