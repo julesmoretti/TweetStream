@@ -3,7 +3,8 @@ var socketio = require('socket.io');
 var twitter = require('twitter');
 var config = require('./config');
 
-
+var connectedCount = 0;
+// var streamStatus = 'not connected';
 
 
 // Start up webserver.
@@ -20,9 +21,25 @@ console.log('Express is running. Open http://localhost:' + port);
 
 // Setup the user sockets.
 io.sockets.on('connection', function (socket) {
+  connectedCount++;
+  console.log('Number of clients connected', connectedCount);
+
+  // socket.emit('streamStatus', streamStatus);
   socket.emit('serverResponse', 'Connected to server');
   socket.on('clientResponse', function (data) {
     console.log(data);
+  });
+
+
+  // On keyword submit, start new stream.
+  socket.on('keyword', function(keyword) {
+    console.log('Starting new stream with keyword:', keyword);
+    var twit = new twitter(config.twitter);
+    startStream(keyword);
+  });
+
+  socket.on('disconnect', function () {
+    connectedCount--;
   });
 });
 
@@ -30,33 +47,44 @@ io.sockets.on('connection', function (socket) {
 // Connect to twitter API
 var twit = new twitter(config.twitter);
 
-var startStream = function() {
+var startStream = function(keyword) {
   console.log('Twitter OK');
   console.log('Starting Twitter stream');
 
-  twit.stream('filter', { track: ['Santa'], location: [-180, -90, 180, 90] }, function(stream, error) {
+  twit.stream('filter', { track: [keyword], location: [-180, -90, 180, 90] }, function(stream, error) {
     // console.log('Stream responded with', stream);
+    // streamStatus = 'connected';
+    // io.sockets.emit('streamStatus', streamStatus);
 
-    //We have a connection. Now watch the 'data' event for incomming tweets.
+    // We have a connection. Now watch the 'data' event for incomming tweets.
     stream.on('data', function(tweet) {
-   
-      //Make sure it was a valid tweet
-      // if (data.text !== undefined) {
-        io.sockets.emit('tweets', tweet);
-      // }
-
+      io.sockets.emit('tweets', tweet);
     });
 
-    setTimeout(function(){
-      console.log('Closing Twitter streaming connection');
-      stream.destroy();
-    }, 5 * 60000);
+    var connectionCheck = setInterval(function(){
+      console.log('Connected count is:', connectedCount);
+
+      // FIXME: check if there's a stream to close.
+      if(connectedCount < 1) {
+        console.log('Closing Twitter streaming connection');
+        stream.destroy();
+        clearInterval(connectionCheck);
+      }
+    }, 1000);
+
+    // setTimeout(function(){
+    //   console.log('Closing Twitter streaming connection');
+    //   streamStatus = 'connected';
+    //   io.sockets.emit('streamStatus', streamStatus);
+    //   stream.destroy();
+    // }, 15 * 60000);
 
   });
 }
 
-startStream();
+// startStream('santa');
 
+// FIXME: On interval, check if socket connections are still valid.
 
 
 
