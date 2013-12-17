@@ -30,7 +30,6 @@ io.sockets.on('connection', function (socket) {
     console.log(data);
   });
 
-
   // On keyword submit, start new stream.
   socket.on('keyword', function(keyword) {
     console.log('Starting new stream with keyword:', keyword);
@@ -71,13 +70,6 @@ var startStream = function(keyword) {
         clearInterval(connectionCheck);
       }
     }, 1000);
-
-    // setTimeout(function(){
-    //   console.log('Closing Twitter streaming connection');
-    //   streamStatus = 'connected';
-    //   io.sockets.emit('streamStatus', streamStatus);
-    //   stream.destroy();
-    // }, 15 * 60000);
 
   });
 }

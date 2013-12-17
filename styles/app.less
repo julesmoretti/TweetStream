@@ -17,17 +17,32 @@ body {
   left: 20px;
 }
 
-#tweetVelocity {
+#tweetData {
   text-align: right;
   position: fixed;
   top: 20px;
   right: 20px;
 
-  span {
+  .target {
     display: block;
     font-size: 48px;
+    margin-bottom: 10px;
+  }
+
+  .tweetLoc {
+    .target {
+      font-size: 12px;
+
+      p {
+        margin-bottom: 5px;
+        line-height: 0.5em;
+      }
+    }
   }
 }
+
+
+
 
 #kwInput {
   position: fixed;
