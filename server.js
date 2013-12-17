@@ -50,11 +50,16 @@ var startStream = function(keyword) {
   console.log('Twitter OK');
   console.log('Starting Twitter stream');
 
-  twit.stream('filter', { track: [keyword], location: [-180, -90, 180, 90] }, function(stream, error) {
-    // console.log('Stream responded with', stream);
-    // streamStatus = 'connected';
-    // io.sockets.emit('streamStatus', streamStatus);
-      console.log('Error from twitter', stream, error);
+
+  // Sanitize keyword data here & time whitespace.
+  var keywords = keyword.split(',');
+  for(var i = 0; i < keywords.length; i++) {
+    // keywords[i] = encodeURIComponent(keywords[i]);
+    keywords[i].replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+  }
+
+  twit.stream('filter', { track: keywords }, function(stream, error) {
+    console.log('Error from twitter', stream, error);
     if(error) {
       return;
     }

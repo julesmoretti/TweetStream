@@ -68,8 +68,8 @@ $(document).ready(function() {
     }
 
     // Show some sort of graph of tweet flow?
-    // console.log('Tweet coming in!');
-    preview.html(tweet.text);
+    // console.log('Tweet coming in!', tweet);
+    preview.html('@' + tweet.user.screen_name + ' - ' + tweet.text);
 
     // FIXME: Better variable name required.
     numPlace.html(tweetStats.total);
