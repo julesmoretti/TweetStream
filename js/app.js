@@ -1,20 +1,23 @@
 $(document).ready(function() {
 
-  var veloPlace = $('.tweetVelocity').find('.target');
-  var numPlace = $('.tweetNum').find('.target');
-  var locPlace = $('.tweetLoc').find('.target');
-  var preview = $('#tweetPreview');
-  var container = document.getElementById( 'globe' );
-  var globe = null;
+  var placements = {
+    velocity   : $('.tweetVelocity').find('.target'),
+    tweetTotal : $('.tweetNum').find('.target'),
+    location   : $('.tweetLoc').find('.target'),
+    preview    : $('#tweetPreview')
+  }
+  
+  var globe = {
+    container : document.getElementById('globe'),
+    obj       : null
+  }
+
   var tweetStats = {
-    'total': 0,
-    'timer': 0,
-    'locations': {}
+    total     : 0,
+    timer     : 0,
+    locations: {}
   };
 
-
-  // var tweetNum = 0;
-  // var tweetTime = 0;
   var last = 0;
   var calcVelo = function(d, t) {
     d = (tweetStats.total - last) * 60;
@@ -23,11 +26,10 @@ $(document).ready(function() {
     return Math.floor(v);
   }
 
-  // Calculate tweet velocity - tweets per minute?
-  // FIXME: This is gross.
+  // Calculate tweet velocity - tweets per second
   setInterval(function(){
     tweetStats.timer += 1
-    veloPlace.html(calcVelo(tweetStats.total, tweetStats.timer));
+    placements.velocity.html(calcVelo(tweetStats.total, tweetStats.timer));
   }, 1000);
     
   // Open Socket
@@ -42,18 +44,21 @@ $(document).ready(function() {
   $('#kwInput form').submit(function(e) {
     e.preventDefault();
 
-    if(globe !== undefined) {
-      // Make sure this actually deletes the globe;
+    // Reset the globe.
+    if(globe.obj !== undefined) {
       console.log('Deleting globe');
-      $('#globe canvas').remove();
+      $('#globe').remove();
+      var globeCont = $('<div></div>').attr('id', 'globe');
+      $('body').prepend(globeCont);
+      globe.container = document.getElementById( 'globe' );
     }
 
     var keyword = $(this).find('input[name=keyword]').val();
     socket.emit('keyword', keyword);
 
     // Make the globe
-    globe = new DAT.Globe( container );
-    globe.animate();
+    globe.obj = new DAT.Globe( globe.container );
+    globe.obj.animate();
   });
 
   // Listen for tweets socket stream.
@@ -62,32 +67,33 @@ $(document).ready(function() {
     tweetStats.total += 1;
 
     // Check for globe, if not one create it.
-    if(globe === null) {
-      globe = new DAT.Globe( container );
-      globe.animate();
+    if(globe.obj === null) {
+      globe.obj = new DAT.Globe( globe.container );
+      globe.obj.animate();
     }
 
-    // Show some sort of graph of tweet flow?
-    // console.log('Tweet coming in!', tweet);
-    preview.html('@' + tweet.user.screen_name + ' - ' + tweet.text);
+    // Display the tweets. Sometimes the user data is undefined.
+    if(!!tweet.user) {
+      placements.preview.html('@' + tweet.user.screen_name + ' - ' + tweet.text);
+    } else {
+      placements.preview.html(tweet.text);
+    }
 
-    // FIXME: Better variable name required.
-    numPlace.html(tweetStats.total);
+    // Display the total tweets recieved on page.
+    placements.tweetTotal.html(tweetStats.total);
 
     if(tweet.geo && tweet.geo.type === "Point") {
-      // console.log('Tweet with geo detected', tweet);
-      locPlace.append('<p>' + tweet.place.full_name + '</p>');
+      if(!!tweet.place) {
+        placements.location.append('<p>' + tweet.place.full_name + '</p>');
+      }
 
       // Format data and add the magnitude.
       var magnitude = tweet.text.length / 280;
       var data = [tweet.geo.coordinates[0], tweet.geo.coordinates[1], magnitude];
-      globe.addData(data, { format: 'magnitude' });
-      // globe.addData(data, { format: 'legend' });
-      // globe.addData(data, { format: 'magnitude', animated: true });
-      globe.createPoints();
-
+      globe.obj.addData(data, { format: 'magnitude' });
+      globe.obj.createPoints();
     }
+
   });
+
 });
-
-
