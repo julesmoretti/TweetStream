@@ -1,6 +1,6 @@
 angular.module('tweetStream')
 
-.controller('globeController', function($scope, socket) {
+.controller('globeController', function($scope, $q, $cookies, socket) {
   var time = null;
   $scope.tweetTotal = 0;
   $scope.tweetVelocity = 0;
@@ -17,20 +17,19 @@ angular.module('tweetStream')
     socket.emit('clientResponse', 'Connected to client');
   });
 
-  // TODO: Create Pause button.
-  // TODO: Split multi-keywords by color.
-
   setInterval(function(){
     // console.log('Calc velocity');
     $scope.tweetVelocity = $scope.velocity();
   }, 5000);
 
-
-
   socket.on('tweets', function(tweet) {
     if(time === null) {
       time = (new Date().getTime() / 1000) / 60;
     }
+
+    // if($cookies.keyword) {
+    //   $scope.cookieKeyword = $cookies.keyword;
+    // }
 
     $scope.tweetTotal++;
     
@@ -75,6 +74,8 @@ angular.module('tweetStream')
     globe.container.innerHTML = '';
 
     console.log('Searching for keyword', this.keyword);
+    // $cookies.keyword = this.keyword;
+    // $scope.cookieKeyword = this.keyword;
     socket.emit('keyword', this.keyword);
   }
 

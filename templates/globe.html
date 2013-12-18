@@ -24,8 +24,13 @@
       <div class="target" ng-model="tweetLocation"><p ng-repeat="location in tweetLocations track by location.id">{{ location.loc }}</p></div>
     </div>
   </div>
-
-  <div id="tweetPreview" ng-model="tweetPreview">{{ tweetPreview }}</div>
+  
+  <!-- <div id="searchKeyword" ng-model="cookieKeyword">
+    <h4>Tweet data for: {{ cookieKeyword }}</h4>
+  </div> -->
+  <div id="tweetPreview" ng-model="tweetPreview">
+    {{ tweetPreview }}
+  </div>
 
   <!-- <div id="pause">
     <button ng-click="toggleStream( on = !on )">Pause</button>

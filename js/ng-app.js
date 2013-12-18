@@ -1,4 +1,4 @@
-angular.module('tweetStream', ['socket-io', 'ngRoute'])
+angular.module('tweetStream', ['socket-io', 'ngRoute', 'ngCookies'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.
     when('/', {
